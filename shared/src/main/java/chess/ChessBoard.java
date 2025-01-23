@@ -7,9 +7,9 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessBoard {
-    private ChessPiece[][] squares = new ChessPiece[8][8];
+    private final ChessPiece[][] squares = new ChessPiece[8][8];
     public ChessBoard() {
-        
+
     }
 
     /**
@@ -38,6 +38,30 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
+        // Shorthand for my pieces
+        ChessPiece p = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.PAWN);
+        ChessPiece n = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.KNIGHT);
+        ChessPiece b =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.BISHOP);
+        ChessPiece r =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.ROOK);
+        ChessPiece q =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.QUEEN);
+        ChessPiece k =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.KING);
+
+        ChessPiece P = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.PAWN);
+        ChessPiece N = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.KNIGHT);
+        ChessPiece B = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.BISHOP);
+        ChessPiece R = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.ROOK);
+        ChessPiece Q = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.QUEEN);
+        ChessPiece K = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.KING);
+
+        for(int i=1;i <= 8;i++){
+            addPiece(new ChessPosition(2,i),P);
+            addPiece(new ChessPosition(7,i),p);
+        }
+
+        
+
+
+
 
     }
 }
