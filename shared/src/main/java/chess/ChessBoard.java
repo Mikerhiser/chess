@@ -22,7 +22,7 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        squares[position.getRow()][position.getColumn()] = piece;
+        squares[position.getRow()-1][position.getColumn()-1] = piece;
     }
 
     /**
@@ -33,7 +33,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return squares[position.getRow()][position.getColumn()];
+        return squares[position.getRow()-1][position.getColumn()-1];
     }
 
     public void printBoard(){
@@ -55,10 +55,10 @@ public class ChessBoard {
         // Shorthand for my pieces
         ChessPiece p = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.PAWN);
         ChessPiece n = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.KNIGHT);
-        ChessPiece b =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.BISHOP);
-        ChessPiece r =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.ROOK);
-        ChessPiece q =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.QUEEN);
-        ChessPiece k =new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.KING);
+        ChessPiece b = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.BISHOP);
+        ChessPiece r = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.ROOK);
+        ChessPiece q = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.QUEEN);
+        ChessPiece k = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.KING);
 
         ChessPiece P = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.PAWN);
         ChessPiece N = new ChessPiece(ChessGame.TeamColor.WHITE,ChessPiece.PieceType.KNIGHT);
@@ -72,8 +72,9 @@ public class ChessBoard {
             addPiece(new ChessPosition(7,i),p);
         }
 
-
     }
+
+
 
     @Override
     public String toString() {
