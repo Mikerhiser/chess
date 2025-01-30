@@ -299,6 +299,24 @@ public class ChessPiece {
                     validMoves.add(new ChessMove(myPosition,new ChessPosition(newrows,newcols),null));
                     newcols--;
                 }
+            case KING:
+                for(int i = -1; i <= 1;i++){
+                    for(int j = -1; j <=1;j++){
+                       if(!((i==0) && (j==0)) && ((row + i) <= 8 && (row + i) > 0) && ((col + j) <= 8 && (col + j) > 0)){
+                           if(board.getPiece(new ChessPosition(row + i,col+j)) != null){
+                               if(board.getPiece(new ChessPosition(row + i,col+j)).getTeamColor() != piece.getTeamColor()){
+                                   validMoves.add(new ChessMove(myPosition,new ChessPosition(row + i,col + j),null));
+                               }
+                           }
+                           else{
+                               validMoves.add(new ChessMove(myPosition,new ChessPosition(row + i,col + j),null));
+                           }
+                       }
+                    }
+                }
+            case PAWN:
+
+
 
         }
         return validMoves;
