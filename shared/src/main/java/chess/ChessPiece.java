@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -52,8 +53,28 @@ public class ChessPiece {
                 ", type=" + type +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessPiece that = (ChessPiece) o;
+        return pieceColor == that.pieceColor && type == that.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type);
+    }
+
     public boolean inBounds(int row, int col){
         return row >= 1 && row <= 8 && col >= 1 && col <= 8;
+    }
+
+    public boolean moveInBounds(ChessMove move){
+        ChessPosition pos = move.getEndPosition();
+        return inBounds(pos.getRow(), pos.getColumn());
     }
 
     /**
@@ -71,8 +92,9 @@ public class ChessPiece {
         int newrows;
         int newcols;
 
+        System.out.println("we will be moving a "+ piece.getPieceType());
         switch (piece.getPieceType()){
-            case BISHOP:
+            case PieceType.BISHOP:
                  newrows = row + 1;
                  newcols = col + 1;
                 while(newrows <= 8 && newcols <= 8){
@@ -88,7 +110,7 @@ public class ChessPiece {
                     newcols++;
                 }
 
-                newrows = row + 1;
+                newrows = row - 1;
                 newcols = col - 1;
                 while(newrows > 0 && newcols > 0){
                     //row- col-
@@ -134,7 +156,9 @@ public class ChessPiece {
                     newrows--;
                     newcols++;
                 }
-            case ROOK:
+                break;
+            case PieceType.ROOK:
+                System.out.println("Rook time");
                 newrows = row +1;
                 newcols = col;
                 while(newrows <= 8){
@@ -186,8 +210,8 @@ public class ChessPiece {
                     validMoves.add(new ChessMove(myPosition,new ChessPosition(newrows,newcols),null));
                     newcols--;
                 }
-
-            case QUEEN:
+                break;
+            case PieceType.QUEEN:
                 newrows = row + 1;
                 newcols = col + 1;
                 while(newrows <= 8 && newcols <= 8){
@@ -301,7 +325,8 @@ public class ChessPiece {
                     validMoves.add(new ChessMove(myPosition,new ChessPosition(newrows,newcols),null));
                     newcols--;
                 }
-            case KING:
+                break;
+            case PieceType.KING:
                 for(int i = -1; i <= 1;i++){
                     for(int j = -1; j <=1;j++){
                        if(!((i==0) && (j==0)) && ((row + i) <= 8 && (row + i) > 0) && ((col + j) <= 8 && (col + j) > 0)){
@@ -316,7 +341,8 @@ public class ChessPiece {
                        }
                     }
                 }
-            case PAWN:
+                break;
+            case PieceType.PAWN:
                 if(piece.getTeamColor() == ChessGame.TeamColor.BLACK){
                     System.out.println("Black Pawn moving");
                     if(row == 7){
@@ -418,7 +444,8 @@ public class ChessPiece {
                     }
                 }
                 System.out.println("no more pawn moves");
-            case KNIGHT:
+                break;
+            case PieceType.KNIGHT:
                 System.out.println("Ah eto, bleh");
                 // up left, up right, left up, left down, down left, down right, right down, right up
                 ArrayList<ChessMove> knightMoves = new ArrayList<>();
@@ -439,6 +466,16 @@ public class ChessPiece {
                 knightMoves.add(knightRU);
                 knightMoves.add(knightRD);
 
+                for (ChessMove knightMove : knightMoves) {
+                    if (moveInBounds(knightMove) && board.getPiece(knightMove.getEndPosition()) != null){
+                        if(piece.getTeamColor() != board.getPiece(knightMove.getEndPosition()).getTeamColor()){
+                        validMoves.add(knightMove);
+                        }
+                    } else if(moveInBounds(knightMove) && board.getPiece(knightMove.getEndPosition()) == null) {
+                        validMoves.add(knightMove);
+                    }
+                }
+                break;
 
         }
         return validMoves;

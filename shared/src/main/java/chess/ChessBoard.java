@@ -52,6 +52,13 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
+
+        for(int i = 1; i <= 8; i++){
+            for(int j = 1; j <= 8; j++){
+                addPiece(new ChessPosition(i,j),null);
+            }
+        }
+
         // Shorthand for my pieces
         ChessPiece p = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.PAWN);
         ChessPiece n = new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.KNIGHT);
@@ -72,6 +79,25 @@ public class ChessBoard {
             addPiece(new ChessPosition(7,i),p);
         }
 
+        addPiece(new ChessPosition(1,1),R);
+        addPiece(new ChessPosition(1,2),N);
+        addPiece(new ChessPosition(1,3),B);
+        addPiece(new ChessPosition(1,4),Q);
+        addPiece(new ChessPosition(1,5),K);
+        addPiece(new ChessPosition(1,6),B);
+        addPiece(new ChessPosition(1,7),N);
+        addPiece(new ChessPosition(1,8),R);
+
+        addPiece(new ChessPosition(8,1),r);
+        addPiece(new ChessPosition(8,2),n);
+        addPiece(new ChessPosition(8,3),b);
+        addPiece(new ChessPosition(8,4),q);
+        addPiece(new ChessPosition(8,5),k);
+        addPiece(new ChessPosition(8,6),b);
+        addPiece(new ChessPosition(8,7),n);
+        addPiece(new ChessPosition(8,8),r);
+
+        printBoard();
     }
 
 
