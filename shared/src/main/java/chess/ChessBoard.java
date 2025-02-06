@@ -97,7 +97,7 @@ public class ChessBoard {
         addPiece(new ChessPosition(8,7),n);
         addPiece(new ChessPosition(8,8),r);
 
-        printBoard();
+        //printBoard();
     }
 
 
