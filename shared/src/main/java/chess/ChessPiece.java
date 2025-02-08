@@ -92,7 +92,7 @@ public class ChessPiece {
         int newrows;
         int newcols;
 
-        System.out.println("we will be moving a "+ piece.getPieceType());
+        //System.out.println("we will be moving a "+ piece.getPieceType());
         switch (piece.getPieceType()){
             case PieceType.BISHOP:
                  newrows = row + 1;
@@ -158,7 +158,7 @@ public class ChessPiece {
                 }
                 break;
             case PieceType.ROOK:
-                System.out.println("Rook time");
+               // System.out.println("Rook time");
                 newrows = row +1;
                 newcols = col;
                 while(newrows <= 8){
@@ -344,7 +344,7 @@ public class ChessPiece {
                 break;
             case PieceType.PAWN:
                 if(piece.getTeamColor() == ChessGame.TeamColor.BLACK){
-                    System.out.println("Black Pawn moving");
+                   // System.out.println("Black Pawn moving");
                     if(row == 7){
                         if(board.getPiece(new ChessPosition(row-2,col)) == null && board.getPiece(new ChessPosition(row-1,col)) == null){
                             validMoves.add(new ChessMove(myPosition,new ChessPosition(row-2,col),null));
@@ -393,7 +393,7 @@ public class ChessPiece {
                 }
 
                 else{
-                    System.out.println("White Pawn moving from: " + row + " " + col);
+                    //System.out.println("White Pawn moving from: " + row + " " + col);
                     if(row == 2) {
                         if (board.getPiece(new ChessPosition(row + 2, col)) == null && board.getPiece(new ChessPosition(row+1,col)) == null) {
                             validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 2, col), null));
@@ -416,7 +416,7 @@ public class ChessPiece {
                     }
 
                     if((row + 1) == 8){
-                        System.out.println("Moving in to promotion");
+                       // System.out.println("Moving in to promotion");
                         if(piece.inBounds(row + 1,col) && board.getPiece(new ChessPosition(row + 1,col)) == null) {
                             validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col), PieceType.QUEEN));
                             validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col), PieceType.BISHOP));
@@ -424,7 +424,7 @@ public class ChessPiece {
                             validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col), PieceType.KNIGHT));
                         }
                         if(piece.inBounds(row + 1,col +1) && board.getPiece(new ChessPosition(row + 1,col + 1)) != null) {
-                            System.out.println("Taking on the right");
+                            //System.out.println("Taking on the right");
                             if(board.getPiece(new ChessPosition(row-1,col + 1)).getTeamColor() != piece.getTeamColor()) {
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col+1), PieceType.QUEEN));
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col+1), PieceType.BISHOP));
@@ -433,7 +433,7 @@ public class ChessPiece {
                             }
                         }
                         if(piece.inBounds(row + 1,col -1) && board.getPiece(new ChessPosition(row + 1,col - 1)) != null) {
-                            System.out.println("Taking on the left");
+                           // System.out.println("Taking on the left");
                             if(board.getPiece(new ChessPosition(row + 1,col - 1)).getTeamColor() != piece.getTeamColor()) {
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col-1), PieceType.QUEEN));
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col-1), PieceType.BISHOP));
@@ -443,10 +443,10 @@ public class ChessPiece {
                         }
                     }
                 }
-                System.out.println("no more pawn moves");
+               // System.out.println("no more pawn moves");
                 break;
             case PieceType.KNIGHT:
-                System.out.println("Ah eto, bleh");
+              //  System.out.println("Ah eto, bleh");
                 // up left, up right, left up, left down, down left, down right, right down, right up
                 ArrayList<ChessMove> knightMoves = new ArrayList<>();
                 ChessMove knightUL = new ChessMove(myPosition, new ChessPosition(row + 2, col -1), null);

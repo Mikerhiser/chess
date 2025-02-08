@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -11,6 +12,7 @@ import java.util.Collection;
 public class ChessGame {
     private ChessBoard gameBoard = new ChessBoard();
     private TeamColor turn = null;
+    private ChessBoard trialBoard = new ChessBoard();
     public ChessGame() {
 
     }
@@ -51,6 +53,14 @@ public class ChessGame {
         return piece.pieceMoves(getBoard(),startPosition);
     }
 
+    public void changeTeamTurn(){
+        if(getTeamTurn() == TeamColor.BLACK){
+            setTeamTurn(TeamColor.WHITE);
+        } else {
+            setTeamTurn(TeamColor.BLACK);
+        }
+    }
+
     /**
      * Makes a move in a chess game
      *
@@ -60,10 +70,38 @@ public class ChessGame {
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ChessPosition start = move.getStartPosition();
         ChessPosition end = move.getEndPosition();
-        ChessPiece piece = gameBoard.getPiece(start);
-
-        gameBoard.addPiece(start,null);
-        gameBoard.addPiece(end,piece);
+        ChessPiece piece = trialBoard.getPiece(start);
+        ChessPiece.PieceType promoteRank = move.getPromotionPiece();
+        if(promoteRank != null){
+            piece = new ChessPiece(getTeamTurn(),promoteRank);
+        }
+        //check if piece is actually a piece
+        if(piece != null){
+            System.out.println("It's a piece");
+            if(getTeamTurn() == piece.getTeamColor()){ //is it the right turn?
+                System.out.println("It's YOUR piece");
+                if(validMoves(start).contains(move)){ //is this a move the piece can actually make
+                    System.out.println("IT'S A REAL MOVE");
+                    trialBoard.addPiece(start,null);
+                    trialBoard.addPiece(end,piece);
+                    if(isInCheck(getTeamTurn())){ //did you move into check?
+                        //trialBoard = gameBoard;
+                        System.out.println("You moved into check you dimwit");
+                        throw new InvalidMoveException("You're in check");
+                    } else{
+                        System.out.println("supposedly, you made it");
+                        //gameBoard = trialBoard;
+                        changeTeamTurn();
+                    }
+                }else{
+                    throw new InvalidMoveException("So sorry, not a valid move");
+                }
+            } else {
+                throw new InvalidMoveException("Not your piece");
+            }
+        } else{
+            throw new InvalidMoveException("Not a piece");
+        }
     }
 
     /**
@@ -73,7 +111,34 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        ArrayList<ChessPosition> enemyPositions = new ArrayList<>();
+        ArrayList<ChessMove> enemyMoves = new ArrayList<>();
+        ChessPosition myKingPos = new ChessPosition(1,1); //clearly wrong, but will always be overwritten. If not, there's a bug
+
+        for(int i = 1; i<=8; i++){
+            for(int j = 1; j<=8; j++){
+                if(trialBoard.getPiece(new ChessPosition(i,j)) != null){
+                    if(trialBoard.getPiece(new ChessPosition(i,j)).getTeamColor() != teamColor){
+                        enemyPositions.add(new ChessPosition(i,j));
+                    }
+                    if(trialBoard.getPiece(new ChessPosition(i,j)).getPieceType() == ChessPiece.PieceType.KING && trialBoard.getPiece(new ChessPosition(i,j)).getTeamColor() == teamColor){
+                        myKingPos = new ChessPosition(i,j);
+                    }
+                }
+            }
+        }
+
+        for(int i = 0; i<enemyPositions.size()-1;i++){
+            enemyMoves.addAll(validMoves(enemyPositions.get(i)));
+        }
+        ArrayList<ChessPosition> destinations = new ArrayList<>();
+        for(int i = 0; i < enemyMoves.size()-1; i++){
+            destinations.add(enemyMoves.get(i).getEndPosition());
+        }
+        System.out.println("Defending King position:" + myKingPos.getRow() + ", " + myKingPos.getColumn());
+        System.out.println("Possible Destinations" + destinations);
+        return destinations.contains(myKingPos);
+
     }
 
     /**
@@ -104,6 +169,7 @@ public class ChessGame {
      */
     public void setBoard(ChessBoard board) {
         gameBoard = board;
+        trialBoard = board;
     }
 
     /**
