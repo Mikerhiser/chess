@@ -103,12 +103,16 @@ public class ChessGame {
                     gameBoard.addPiece(end,piece);
                     trialBoard = gameBoard.clone();
                     if(piece.getTeamColor() == TeamColor.BLACK){
-                        if(isInCheck(TeamColor.WHITE)){
+                        if(isInCheck(TeamColor.WHITE)) {
                             isInCheckmate(TeamColor.WHITE);
+                        }else{
+                            isInStalemate(TeamColor.WHITE);
                         }
                     }else {
-                        if(isInCheck(TeamColor.BLACK)){
+                        if(isInCheck(TeamColor.BLACK)) {
                             isInCheckmate(TeamColor.BLACK);
+                        }else {
+                            isInStalemate(TeamColor.BLACK);
                         }
                     }
                     changeTeamTurn();
@@ -169,14 +173,30 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
+       return isInEndgame(teamColor);
+    }
+
+    /**
+     * Determines if the given team is in stalemate, which here is defined as having
+     * no valid moves
+     *
+     * @param teamColor which team to check for stalemate
+     * @return True if the specified team is in stalemate, otherwise false
+     */
+    public boolean isInStalemate(TeamColor teamColor) {
+        return isInEndgame(teamColor) && !isInCheck(teamColor);
+    }
+
+    public boolean isInEndgame(TeamColor teamColor){
         ArrayList<ChessPosition> teamPos;
         ArrayList<ChessMove> allMoves = new ArrayList<>();
         ArrayList<ChessMove> savingMoves = new ArrayList<>();
         teamPos = (ArrayList<ChessPosition>) teamPos(teamColor);
 
         for(int i = 0; i< teamPos.size();i++){
+            System.out.println("This piece is a: " +trialBoard.getPiece(teamPos.get(i)));
             if(!validMoves(teamPos.get(i)).isEmpty()){
-            allMoves.addAll(validMoves(teamPos.get(i)));
+                allMoves.addAll(validMoves(teamPos.get(i)));
             }
         }
         trialBoard = gameBoard.clone();
@@ -192,22 +212,10 @@ public class ChessGame {
             if(!isInCheck(teamColor)){
                 savingMoves.add(allMoves.get(i));
             }
+            trialBoard = gameBoard.clone();
         }
 
-        for(int i = 0; )
-
-        return !savingMoves.isEmpty();
-    }
-
-    /**
-     * Determines if the given team is in stalemate, which here is defined as having
-     * no valid moves
-     *
-     * @param teamColor which team to check for stalemate
-     * @return True if the specified team is in stalemate, otherwise false
-     */
-    public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        return savingMoves.isEmpty();
     }
 
     public Collection<ChessPosition> teamPos(TeamColor teamColor){
