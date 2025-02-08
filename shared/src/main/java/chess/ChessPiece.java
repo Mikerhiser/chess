@@ -10,7 +10,7 @@ import java.util.Objects;
  * Note: You can add to this class, but you may not alter
  * signature of the existing methods.
  */
-public class ChessPiece {
+public class ChessPiece implements Cloneable{
 
     private final ChessGame.TeamColor pieceColor;
     private final ChessPiece.PieceType type;
@@ -48,10 +48,7 @@ public class ChessPiece {
 
     @Override
     public String toString() {
-        return "ChessPiece{" +
-                "pieceColor=" + pieceColor +
-                ", type=" + type +
-                '}';
+        return "" + type;
     }
 
     @Override
@@ -66,6 +63,15 @@ public class ChessPiece {
     @Override
     public int hashCode() {
         return Objects.hash(pieceColor, type);
+    }
+
+    @Override
+    public ChessPiece clone()  {
+        try{
+            return (ChessPiece) super.clone();
+        }catch (CloneNotSupportedException e){
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean inBounds(int row, int col){
@@ -425,7 +431,7 @@ public class ChessPiece {
                         }
                         if(piece.inBounds(row + 1,col +1) && board.getPiece(new ChessPosition(row + 1,col + 1)) != null) {
                             //System.out.println("Taking on the right");
-                            if(board.getPiece(new ChessPosition(row-1,col + 1)).getTeamColor() != piece.getTeamColor()) {
+                            if(board.getPiece(new ChessPosition(row+1,col + 1)).getTeamColor() != piece.getTeamColor()) {
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col+1), PieceType.QUEEN));
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col+1), PieceType.BISHOP));
                                 validMoves.add(new ChessMove(myPosition, new ChessPosition(row + 1, col+1), PieceType.ROOK));
