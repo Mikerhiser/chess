@@ -55,7 +55,7 @@ public class ChessGame {
         ArrayList<ChessMove> invalidMoves = new ArrayList<>();
         trialBoard = gameBoard.clone();
 
-        ChessPosition end = new ChessPosition(0,0); // clearly wrong but will be over written
+        ChessPosition end = new ChessPosition(0,0); // clearly wrong but will be overwritten
         for(int i = 0; i < possibleMoves.size(); i++){
             end =  possibleMoves.get(i).getEndPosition();
             trialBoard.addPiece(startPosition,null);
