@@ -9,14 +9,39 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
+        Handler handler = new Handler();
+
         // Register your endpoints and handle exceptions here.
-        Spark.delete("/db",(req,res)->"{}");
-        Spark.post("/user",(req,res)->"Add user");
-        Spark.post("/session",(req,res)->"{\"username\": \"Blergleborf\", \"password\": \"Blerglebarf\"}");
-        Spark.delete("/session",(req,res)->"Logout");
-        Spark.get("/game",(req,res)->"List all games");
-        Spark.post("/game",(req,res)->"Create game");
-        Spark.put("/game",(req,res)->"Join Game");
+        Spark.delete("/db",(req,res)->{
+            System.out.println("we deleting");
+            res = handler.deleteHandler(req,res);
+            System.out.println(res);
+            return res;
+        });
+
+        Spark.post("/user",(req,res)->{
+            return "Add user";
+        });
+
+        Spark.post("/session",(req,res)->{
+            return "{\"username\": \"Blergleborf\", \"password\": \"Blerglebarf\"}";
+        });
+
+        Spark.delete("/session",(req,res)->{
+            return "Logout";
+        });
+
+        Spark.get("/game",(req,res)->{
+            return "List all games";
+        });
+
+        Spark.post("/game",(req,res)->{
+            return "Create game";
+        });
+
+        Spark.put("/game",(req,res)->{
+            return "Join Game";
+        });
 
         //This line initializes the server and can be removed once you have a functioning endpoint 
        // Spark.init();
