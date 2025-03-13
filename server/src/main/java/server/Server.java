@@ -13,10 +13,10 @@ public class Server {
 
         // Register your endpoints and handle exceptions here.
         Spark.delete("/db",(req,res)->{
-            System.out.println("we deleting");
+            //System.out.println("we deleting");
             res = handler.deleteHandler(req,res);
-            System.out.println(res);
-            return res;
+            //System.out.println(res);
+            return res.body();
         });
 
         Spark.post("/user",(req,res)->{
